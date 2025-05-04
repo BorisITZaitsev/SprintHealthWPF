@@ -66,7 +66,7 @@ The repository includes sample CSV files provided by T1 during the T1 Hakatone S
 
 ## 🖥️ UI Overview
 plaintext
-Main Application Window:
+Main Application Window:/
 ├── Menu Bar (File, View, Help)
 ├── Data Import Panel (Drag & Drop)
 ├── Chart Display Area
