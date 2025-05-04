@@ -48,11 +48,11 @@
   ```
 3. Prepare your data files:
 
-Copy sprints.csv and database.csv from TestFiles directory
+- Copy sprints.csv and database.csv from TestFiles directory
 
-Run the application:
+- Run the application:
 
-Double-click Sprint Heath.exe
+- Double-click Sprint Heath.exe
 
 ### Quick Tip
 For easier access, create a desktop shortcut to Sprint Heath.exe and keep your data files in an accessible location.
@@ -60,9 +60,9 @@ For easier access, create a desktop shortcut to Sprint Heath.exe and keep your d
 ## 📂 Sample Data
 The repository includes sample CSV files provided by T1 during the T1 Hakatone SPB 2024 hackathon:
 
-sprints.csv - Contains sprint metrics and timelines
+- sprints.csv - Contains sprint metrics and timelines
 
-database.csv - Includes team performance data
+- database.csv - Includes team performance data
 
 ## 🖥️ UI Overview
 plaintext
@@ -71,10 +71,11 @@ Main Application Window:
 ├── Data Import Panel (Drag & Drop)
 ├── Chart Display Area
 └── Metrics Summary Section
-📊 Supported Metrics
+
+## 📊 Supported Metrics
 Sprint Velocity
 
-###Story Points Completion
+### Story Points Completion
 
 Burn-down Rate
 
@@ -82,13 +83,13 @@ Team Capacity Utilization
 
 Defect Density
 
-##🤝 Contributing
+## 🤝 Contributing
 Contributions are welcome! Please fork the repository and create a pull request with your improvements.
 
-📜 License
+## 📜 License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-📧 Contact
+## 📧 Contact
 Boris Zaitsev
 boryanzayzev@gmail.com
 
