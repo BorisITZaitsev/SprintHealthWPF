@@ -94,4 +94,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 Boris Zaitsev
 boryanzayzev@gmail.com
 
-<div align="center"> <sub>Built with ♥ for Scrum Masters and Agile Teams</sub> </div> ```
+<div align="center"> <sub>Built with ♥ for Scrum Masters and Agile Teams</sub> </div>
