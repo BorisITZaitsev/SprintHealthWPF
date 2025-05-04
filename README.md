@@ -65,12 +65,13 @@ The repository includes sample CSV files provided by T1 during the T1 Hakatone S
 - database.csv - Includes team performance data
 
 ## 🖥️ UI Overview
-plaintext
-Main Application Window:/
+```plaintext
+Main Application Window:
 ├── Menu Bar (File, View, Help)
 ├── Data Import Panel (Drag & Drop)
 ├── Chart Display Area
 └── Metrics Summary Section
+```
 
 ## 📊 Supported Metrics
 Sprint Velocity
