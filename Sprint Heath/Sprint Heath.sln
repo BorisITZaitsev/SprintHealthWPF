@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35208.52
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprint Heath", "Sprint Heath.csproj", "{7B0FAD56-869C-42F2-B1F1-ABD4CFBBA46C}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "TestSetup", "..\TestSetup\TestSetup.vdproj", "{E240B8EE-6908-49A1-864D-E16AD7B5DC21}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7B0FAD56-869C-42F2-B1F1-ABD4CFBBA46C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B0FAD56-869C-42F2-B1F1-ABD4CFBBA46C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B0FAD56-869C-42F2-B1F1-ABD4CFBBA46C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B0FAD56-869C-42F2-B1F1-ABD4CFBBA46C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E240B8EE-6908-49A1-864D-E16AD7B5DC21}.Debug|Any CPU.ActiveCfg = Debug
+		{E240B8EE-6908-49A1-864D-E16AD7B5DC21}.Release|Any CPU.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E2EAA3CB-E44A-41BD-B32B-A24AA67099E6}
+	EndGlobalSection
+EndGlobal
