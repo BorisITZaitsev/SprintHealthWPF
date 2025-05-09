@@ -1,0 +1,71 @@
+﻿<Window x:Class="Sprint_Heath.StatisticsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Sprint_Heath"
+        xmlns:ScottPlot="clr-namespace:ScottPlot.WPF;assembly=ScottPlot.WPF"
+        mc:Ignorable="d"
+        Title="SprintStatisticsWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Rectangle Fill="White" Grid.ColumnSpan="8" Grid.RowSpan="11" />
+        <TextBlock x:Name="SprintTitle" Text="Some sprint name that I haven't got yet"
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Top"
+                   FontSize="30" FontFamily="Impact"
+                   Foreground="Black"
+                   Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="6" Grid.RowSpan="2" Margin="0,22,0,0"/>
+        <ScrollViewer Grid.Row="3" Grid.RowSpan="7" Grid.ColumnSpan="6" Margin="23,0,24,39" Grid.Column="1">
+            <StackPanel>
+                <ScottPlot:WpfPlot x:Name="MyPlot" Width="500" Height="220"/>
+                <TextBlock x:Name="OutputTextBlock1" FontSize="20" FontFamily="Fonts\#Oswald" Width="450" HorizontalAlignment="Center" TextAlignment="Justify" TextWrapping="WrapWithOverflow"/>
+                <TextBlock x:Name="OutputTExtblock2" FontSize="20" FontFamily="Fonts\#Oswald"  Width="450" HorizontalAlignment="Center" TextAlignment="Justify" TextWrapping="WrapWithOverflow"/>
+                <TextBlock x:Name="OutputTExtblock3" FontSize="20" FontFamily="Fonts\#Oswald"  Width="450" HorizontalAlignment="Center" TextAlignment="Justify" TextWrapping="WrapWithOverflow"/>
+                <TextBlock x:Name="OutputTExtblock4" FontSize="20" FontFamily="Fonts\#Oswald"  Width="450" HorizontalAlignment="Center" TextAlignment="Justify" TextWrapping="WrapWithOverflow"/>
+                <Button Grid.Column="3" Grid.Row="9" Grid.ColumnSpan="2" 
+        FontFamily="Fonts\#Oswald"
+        Content="Learn more about distribution" Background="White" Foreground="DarkOliveGreen" BorderBrush="DarkOliveGreen" Click="CallMessageBox" />
+            </StackPanel>
+        </ScrollViewer>
+        <Button Grid.Column="3" Grid.Row="9" Grid.ColumnSpan="2" 
+                FontFamily="Fonts\#Oswald"
+                Content="Back" Background="White" Foreground="DeepSkyBlue" BorderBrush="DeepSkyBlue" Click="PreviousWindow" 
+                Margin="40,2,40,8"/>
+        <Rectangle Width="800" Height="450" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   Grid.Column="0" Grid.Row="0"
+                   Grid.ColumnSpan="8" Grid.RowSpan="11">
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="Images\HK background startpage.png"/>
+            </Rectangle.Fill>
+            <Rectangle.Clip>
+                <GeometryGroup>
+                    <RectangleGeometry Rect="0,0,800,450" RadiusX="0" RadiusY="0"/>
+                    <RectangleGeometry Rect="114,45,570,356" RadiusX="20" RadiusY="20"/>
+                </GeometryGroup>
+            </Rectangle.Clip>
+        </Rectangle>
+    </Grid>
+</Window>
