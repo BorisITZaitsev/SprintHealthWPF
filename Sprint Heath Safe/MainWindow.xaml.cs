@@ -1,17 +1,19 @@
-﻿using System;
-using static Statistic_functions.DataTools;
+using Statistic_functions;
+using System;
+using System.IO;
+using System.Runtime.Versioning;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.IO;
-using Statistic_functions;
-
 
 namespace Sprint_Heath
 {
+    [SupportedOSPlatform("windows7.0")]
     public partial class MainWindow : Window
     {
-        private static int filesCatched = 0;
+        private bool _sprintsLoaded;
+        private bool _eventsLoaded;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -19,58 +21,66 @@ namespace Sprint_Heath
 
         private void OpenSprintSelectionWindow()
         {
-            SelectionWindow sprintSelectionWindow = new SelectionWindow();
-            sprintSelectionWindow.Left = this.Left;
-            sprintSelectionWindow.Top = this.Top;
+            SelectionWindow sprintSelectionWindow = new();
+            sprintSelectionWindow.Left = Left;
+            sprintSelectionWindow.Top = Top;
             sprintSelectionWindow.Show();
-            this.Close();
-
+            Close();
         }
 
         private void DropArea_Drop(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            if (!e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                string[] filePaths = (string[])e.Data.GetData(DataFormats.FileDrop);
-                if (filePaths.Length > 0)
-                {
-                    string filePath = filePaths[0];
-                    string fileName = System.IO.Path.GetFileName(filePath);
-                    string targetDirectory = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FilesTaken");
-                    if (!Directory.Exists(targetDirectory))
-                    {
-                        Directory.CreateDirectory(targetDirectory);
-                    }
-                    string destinationDirectory = System.IO.Path.Combine(targetDirectory, fileName);
-                    System.IO.File.Copy(filePath, destinationDirectory, true);
-                    Border dropArea = sender as Border;
-
-                    if (dropArea != null)
-                    {
-                        if (dropArea.Name == "DropArea_sprints")
-                        {
-                            SprintsFileDropText.Text = "taken";
-                            SprintsFileDropText.Foreground = Brushes.Green;
-                            dropArea.AllowDrop = false;
-                            DataTools.ConvertToSprints(DataTools.ExtractData(destinationDirectory));
-
-                        }
-                        else if (dropArea.Name == "DropArea_database")
-                        {
-                            DataFileDropText.Text = "taken";
-                            DataFileDropText.Foreground = Brushes.Green;
-                            dropArea.AllowDrop = false;
-                            DataTools.ConvertToEvents(DataTools.ExtractData(destinationDirectory));
-                        }
-                        filesCatched++;
-                        if (filesCatched == 2)
-                        {
-                            DataTools.CreateCompleteDatabase();
-                            OpenSprintSelectionWindow();
-                        }
-                    }
-                }
+                return;
             }
+
+            string[] filePaths = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (filePaths.Length == 0 || sender is not Border dropArea)
+            {
+                return;
+            }
+
+            string copiedFilePath = CopyFileToWorkingDirectory(filePaths[0]);
+
+            if (dropArea.Name == nameof(DropArea_sprints))
+            {
+                DataTools.LoadSprintsFromFile(copiedFilePath);
+                MarkDropAreaAsLoaded(SprintsFileDropText, dropArea);
+                _sprintsLoaded = true;
+            }
+            else if (dropArea.Name == nameof(DropArea_database))
+            {
+                DataTools.LoadEventsFromFile(copiedFilePath);
+                MarkDropAreaAsLoaded(DataFileDropText, dropArea);
+                _eventsLoaded = true;
+            }
+
+            if (_sprintsLoaded && _eventsLoaded)
+            {
+                // После загрузки обоих файлов связываем события со спринтами по entityIds.
+                DataTools.CreateCompleteDatabase();
+                OpenSprintSelectionWindow();
+            }
+        }
+
+        private static string CopyFileToWorkingDirectory(string sourcePath)
+        {
+            string targetDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FilesTaken");
+            Directory.CreateDirectory(targetDirectory);
+
+            string fileName = Path.GetFileName(sourcePath);
+            string destinationPath = Path.Combine(targetDirectory, fileName);
+            File.Copy(sourcePath, destinationPath, overwrite: true);
+
+            return destinationPath;
+        }
+
+        private static void MarkDropAreaAsLoaded(TextBlock label, Border dropArea)
+        {
+            label.Text = "файл загружен";
+            label.Foreground = Brushes.SeaGreen;
+            dropArea.AllowDrop = false;
         }
     }
 }

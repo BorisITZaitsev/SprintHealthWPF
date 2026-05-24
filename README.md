@@ -1,97 +1,159 @@
-# 🚀 Sprint Health - Analytics for Scrum Teams
+# SprintHealthWPF
 
-![GitHub](https://img.shields.io/github/license/BorisITZaitsev/SprintHealthWPF)
-![.NET](https://img.shields.io/badge/.NET-6.0-blue)
-![WPF](https://img.shields.io/badge/WPF-Desktop_App-purple)
-![ScottPlot](https://img.shields.io/badge/Charting-ScottPlot-green)
+Десктопное WPF-приложение для статистически-эконометрической оценки спринтов Scrum-команд по журналам событий. Проект был подготовлен как практическая часть курсовой работы «Приложение для статистически-эконометрической оценки работы компаний, работающих по методологии Scrum».
 
-<div align="center">
-  <img src="https://placehold.co/800x400?text=Sprint+Health+Dashboard" alt="App Screenshot">
-</div>
+## 1. Наименование проекта
 
-## 📌 Overview
+**SprintHealthWPF**
 
-**Sprint Health** is a powerful analytics application designed to evaluate the performance of Scrum teams using econometric and statistical methods. Developed for the **T1 Hakatone SPB 2024** hackathon with sample data provided by T1 company.
+## 2. Использованные библиотеки, фреймворки и средства разработки
 
-## ✨ Key Features
+- `C#`
+- `.NET 8`
+- `WPF`
+- `XAML`
+- `ScottPlot.WPF 5.0.55`
+- `JetBrains Rider` или `Visual Studio 2022+` для разработки
+- `dotnet CLI` для сборки и запуска
 
-- 📈 Interactive sprint metrics visualization
-- 📊 Comprehensive statistical analysis
-- 🔍 Burn-down/up charts and velocity tracking
-- 📁 CSV data import functionality
-- 🖥️ Clean WPF interface with ScottPlot integration
+## 3. Сущность проекта
 
-## 🛠️ Technology Stack
+Приложение анализирует спринт как временной ряд дневных событий. Из реферата курсовой работы в основу оценки заложены:
 
-| Component        | Technology           |
-|------------------|----------------------|
-| Backend          | C# (.NET 6)          |
-| UI Framework     | WPF                  |
-| Charting         | ScottPlot            |
-| Markup           | XAML                 |
-| IDE              | Visual Studio        |
+- факторный признак: время, представленное последовательностью дней спринта;
+- результативный признак: количество событий за день;
+- типы событий: `Initialized`, `In Progress`, `Finished`, `Failed`.
 
-## 🚀 Getting Started
+Оценка строится через сравнение реального спринта с эталонной моделью “устойчивого” спринта. В программе проверяются четыре критерия:
 
-### Prerequisites
-- Windows OS
-- .NET 6.0 Runtime
-
-### Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/BorisITZaitsev/SprintHealthWPF.git
-   ```
-2. Navigate to the build directory:
-  ```bash
-  cd SprintHealthWPF/Sprint Heath/bin/Debug
-  ```
-3. Prepare your data files:
-
-- Copy sprints.csv and database.csv from TestFiles directory
-
-- Run the application:
-
-- Double-click Sprint Heath.exe
-
-### Quick Tip
-For easier access, create a desktop shortcut to Sprint Heath.exe and keep your data files in an accessible location.
-
-## 📂 Sample Data
-The repository includes sample CSV files provided by T1 during the T1 Hakatone SPB 2024 hackathon:
-
-- sprints.csv - Contains sprint metrics and timelines
-
-- database.csv - Includes team performance data
-
-## 🖥️ UI Overview
-```plaintext
-Main Application Window:
-├── Menu Bar (File, View, Help)
-├── Data Import Panel (Drag & Drop)
-├── Chart Display Area
-└── Metrics Summary Section
+```text
+1. D <= N
+2. x_i ∈ [M - 2σ; M + 2σ]
+3. M - 2σ >= 0
+4. S_k <= 0.29 * N
 ```
 
-## 📊 Supported Metrics
-Sprint Velocity
+где:
 
-### Story Points Completion
+- `N` — общее число событий спринта;
+- `M` — среднее число событий в день;
+- `D` — дисперсия дневных значений;
+- `σ` — среднеквадратичное отклонение;
+- `S_k` — сумма событий в подряде длиной около `27.27%` длины спринта.
 
-Burn-down Rate
+Если распределение событий слишком неравномерно, нижняя граница уходит в отрицательную область, наблюдаются дневные пики вне коридора `M ± 2σ`, а концентрация событий в коротких интервалах слишком высока, спринт считается отклоняющимся от эталона.
 
-Team Capacity Utilization
+## 4. Что делает проект
 
-Defect Density
+Приложение:
 
-## 🤝 Contributing
-Contributions are welcome! Please fork the repository and create a pull request with your improvements.
+- принимает два CSV-файла: список спринтов и журнал событий;
+- связывает события со спринтами по `entityIds`;
+- строит стековую диаграмму событий по дням спринта;
+- вычисляет среднее, дисперсию, стандартное отклонение и границы `M ± 2σ`;
+- формирует текстовые выводы по четырем критериям оценки;
+- показывает подробный отчет по расчетам в отдельном окне сообщения.
 
-## 📜 License
-This project is licensed under the MIT License - see the LICENSE file for details.
+## 5. Структура проекта
 
-## 📧 Contact
-Boris Zaitsev
-boryanzayzev@gmail.com
+```text
+SprintHealthWPF/
+├── README.md
+├── TestFiles/
+│   ├── sprints.csv
+│   └── database.csv
+└── Sprint Heath Safe/
+    ├── Sprint Heath.sln
+    ├── Sprint Heath.csproj
+    ├── App.xaml / App.xaml.cs
+    ├── MainWindow.xaml / MainWindow.xaml.cs
+    ├── SelectionWindow.xaml / SelectionWindow.xaml.cs
+    ├── StatisticsWindow.xaml / StatisticsWindow.xaml.cs
+    ├── DataTools.cs
+    ├── Fonts/
+    ├── Images/
+    └── Properties/
+        └── AssemblyInfo.cs
+```
 
-<div align="center"> <sub>Built with ♥ for Scrum Masters and Agile Teams</sub> </div>
+Ключевые файлы:
+
+- `DataTools.cs` — загрузка CSV, связывание событий со спринтами и статистический расчет.
+- `MainWindow.*` — стартовое окно с drag-and-drop загрузкой файлов.
+- `SelectionWindow.*` — выбор конкретного спринта.
+- `StatisticsWindow.*` — график ScottPlot и итоговые выводы по спринту.
+- `TestFiles/` — пример данных для демонстрации работы.
+
+## 6. Инструкция по установке
+
+Требования:
+
+- Windows 10/11
+- `.NET 8 SDK`
+
+Установка:
+
+```bash
+git clone https://github.com/<your-username>/SprintHealthWPF.git
+cd SprintHealthWPF
+dotnet restore "Sprint Heath Safe/Sprint Heath.csproj"
+dotnet build "Sprint Heath Safe/Sprint Heath.csproj" -c Release
+```
+
+## 7. Инструкция по запуску и использованию
+
+Запуск из репозитория:
+
+```bash
+dotnet run --project "Sprint Heath Safe/Sprint Heath.csproj"
+```
+
+Как пользоваться:
+
+1. Откройте стартовое окно приложения.
+2. Перетащите в левую область файл `sprints.csv`.
+3. Перетащите в правую область файл `database.csv`.
+4. После загрузки обоих файлов откроется окно выбора спринта.
+5. Нажмите на нужный спринт.
+6. Изучите диаграмму, текстовые выводы и при необходимости нажмите `Показать расчеты`.
+
+Для быстрой проверки можно использовать файлы из каталога `TestFiles/`.
+
+## 8. Результаты работы
+
+На тестовой выборке из `TestFiles/` приложение обрабатывает 6 спринтов:
+
+- `Спринт 2024.3.1.NPP Shared Sprint`
+- `Спринт 2024.3.2.NPP Shared Sprint`
+- `Спринт 2024.3.3.NPP Shared Sprint`
+- `Спринт 2024.3.4.NPP Shared Sprint`
+- `Спринт 2024.3.5.NPP Shared Sprint`
+- `Спринт 2024.3.6.NPP Shared Sprint`
+
+Для текущей примерной выборки программа показывает, что все 6 спринтов отклоняются от эталонного распределения по всем четырем критериям:
+
+- дисперсия превышает общее число событий;
+- в ряде дней наблюдаются пики за пределами `M ± 2σ`;
+- нижняя расчетная граница становится отрицательной;
+- правило `29%` для подрядов нарушается.
+
+Иными словами, примерные данные демонстрируют неравномерное распределение рабочей активности внутри спринтов и высокую концентрацию событий в отдельных временных интервалах.
+
+## 9. Информация об авторе
+
+- **Автор:** Борис М. Зайцев
+- **Направление:** Бизнес-информатика
+- **Профиль:** Информационные технологии в международном бизнесе
+- **Учебная работа:** курсовая работа, 2025 год
+- **Учебное заведение:** Одинцовский филиал МГИМО
+- **Контакт:** `boryanzayzev@gmail.com`
+
+## Примечание по рефакторингу
+
+В текущей версии проект был приведен к publish-ready состоянию:
+
+- сборка переведена на современный SDK-style `.csproj`;
+- исправлена привязка событий к конкретным спринтам;
+- восстановлена корректная отрисовка ScottPlot в WPF;
+- удалены устаревшие зависимости и лишние артефакты старой сборки;
+- добавлены поясняющие комментарии в местах с неочевидной логикой.
